@@ -26,17 +26,14 @@ function App() {
   
   // everytime we change song
   useEffect(() => {
-    //fix the error promise undeffined when skipping songs too fast
     pause();
     if (isReady.current) {
+      //fix the error promise undeffined when skipping songs too fast
       const playPromise = audioRef.current.play();
-      console.log(playPromise);
       if (playPromise !== undefined) {
         playPromise.then(() => {
-          console.log("play")
           play();
           setIsPlaying(true);
-          console.log(volume.current.value);
         })
         .catch(error => {
           console.log("error promise play()");
@@ -49,7 +46,7 @@ function App() {
 
   // update on the current time of audio
   useEffect(() => {
-    console.log(currentTime, 'useEffect on currentTime');
+    // console.log(currentTime, 'useEffect on currentTime');
     progressBarRef.current.value = Math.floor(audioRef.current.currentTime);
     progressBarRef.current.style.setProperty('--move-progressbar', `${progressBarRef.current.value / duration * 100}%`)
     // setCurrentTime(progressBarRef.current.value);
@@ -66,7 +63,7 @@ function App() {
   // set duration everytime the player has loaded metadata
   const onLoadedMetadata = () => {
     const seconds = Math.floor(audioRef.current.duration);
-    console.log("onloaded metadata")
+    // console.log("onloaded metadata");
     setDuration(seconds);
     progressBarRef.current.max = seconds;
   };
