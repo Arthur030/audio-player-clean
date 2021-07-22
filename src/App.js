@@ -25,8 +25,9 @@ function App() {
   const volume = useRef();
   
   // everytime we change song
-  useEffect(() => {
+  useEffect( () => {
     pause();
+    // for first render of the page, makes the player on pause
     if (isReady.current) {
       //fix the error promise undeffined when skipping songs too fast
       const playPromise = audioRef.current.play();
@@ -40,6 +41,7 @@ function App() {
         })
       }
     } else {
+      // once page has loaded once
       isReady.current = true;
     }
   }, [tracksIndex]);
@@ -48,7 +50,7 @@ function App() {
   useEffect(() => {
     // console.log(currentTime, 'useEffect on currentTime');
     progressBarRef.current.value = Math.floor(audioRef.current.currentTime);
-    progressBarRef.current.style.setProperty('--move-progressbar', `${progressBarRef.current.value / duration * 100}%`)
+    progressBarRef.current.style.setProperty('--move-progressbar', `${progressBarRef.current.value / calculateTime(audioRef.current.duration) * 100}%`)
     // setCurrentTime(progressBarRef.current.value);
     // animationRef.current = requestAnimationFrame(progressBarRef);
   }, [currentTime])
@@ -181,7 +183,7 @@ function App() {
           className="volume-bar"
           min="0"
           max="100"
-          defaultValue="100"
+          defaultValue="50"
           ref={volume}
           onChange={changeVolume}
           />
